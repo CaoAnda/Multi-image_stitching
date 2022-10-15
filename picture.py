@@ -2,11 +2,10 @@ import random
 
 import cv2
 import numpy
-def showImg(img):
-    cv2.imshow(str(random.randint(1, 100)), img)
-    cv2.imwrite('result.jpg', img)
-    cv2.waitKey()
-
+def showImg(img, filename = 'result'):
+    # cv2.imshow(str(random.randint(1, 100)), img)
+    cv2.imwrite('result/%s.jpg'%filename, img)
+    # cv2.waitKey()
 
 class classPic:
     picSize = (20, 20)
@@ -17,8 +16,6 @@ class classPic:
 
         self.mainColor = get_main_color(image)
         self.image = cv2.copyMakeBorder(image, border, border, border, border, cv2.BORDER_CONSTANT, value=(255, 255, 255))
-        # print(self.mainColor)
-        # showImg(self.image)
 
 def int2RGB(color):
     # int(BGR)
@@ -36,7 +33,7 @@ def RGB2int(RGB):
     # int(BGR)
     return color
 
-def get_main_color(img : numpy.ndarray, blockSize = 2):
+def get_main_color(img : numpy.ndarray, blockSize = 4):
     RGBcount = dict()
     h, w, _ = img.shape
     for x in range(h):
@@ -50,8 +47,12 @@ def get_main_color(img : numpy.ndarray, blockSize = 2):
     # print(RGBcount[maxRGB])
     return int2RGB(maxRGB)
 
-def getDistance(pointA, pointB):
+def getDistance(pointA, pointB, biasOn = True):
     distance = 0
+    bias = 0
+    if biasOn:
+        border = 0
+        bias = random.randint(-border, border)
     for i in range(3):
-        distance += (pointA[i] - pointB[i]) * (pointA[i] - pointB[i])
+        distance += (pointA[i] - pointB[i] + bias) * (pointA[i] - pointB[i] + bias)
     return distance
