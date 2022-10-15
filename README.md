@@ -12,4 +12,4 @@
 | phash | 02:13   |
 | cos   | 02:14   |
 
-![result](.\result\result.jpg)
+![result](result/result.jpg)
